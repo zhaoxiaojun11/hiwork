@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>所有新闻</title>
+</head>
+<link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet" />
+<body>
+  <a href="/admin,News-add" type="button" class="m-2 btn btn-primary">发布一条新闻</a>
+ 
+  <div id="tby" class="container">
+    <div id="tblBox">
+      <table class="table">
+      <thead class="thead-light">
+        <tr>
+        <th scope="col">id</th>
+        <th scope="col">标题</th>
+        <th scope="col">组别</th>
+        <th scope="col">创建时间</th>
+        <th scope="col">操作</th>
+        </tr>
+      </thead>
+      <tbody id="tblbody">
+        <tr>
+        <th scope="row">1</th>
+        <td>标题</td>
+        <td>组别</td>
+        <td>创建时间</td>
+        <td>删除 更新</td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="pgbox">
+
+	</div>
+
+</body>
+<script src='/static/js/vue.min.js'></script>
+<script src='/static/js/vuePager-master/vuePager.min.js'></script>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>	
+<script>
+    var F={
+      one:(slt)=>document.querySelector(slt),
+        all:(slt)=>document.querySelector(slt),
+	  hasPager:false,
+
+    }
+  setList(1);
+
+    // 生成表格和分页	
+    function setList(pn){
+      // 生成表内容
+      axios({
+        url:"/admin,news-alling",
+        method:"get",
+        params:{pn}
+      }).then(function(r){
+        r=r.data;
+        if(r.stat==1){	
+          console.log(r.data.rows[0].id);
+          // 生成表格列表
+          setRows(r.data.rows);
+
+          // 生成页码（注意页码只生成一次）
+          if(F.hasPager==false){
+          	setPager(r.data.page.pn, r.data.page.tp);
+          	F.hasPager=true;
+          }
+
+        }
+      }).catch(function(e){
+        alert(e);
+      })
+    }
+
+
+    function setRows(rows){
+      let html="";
+      for(let row of rows){
+        html +=`<tr data-nid="${row.id}">
+          <th scope="row">${row.id}</th>
+          <td class="titWdt">${row.tit}</td>
+          <td>${row.grp}</td>
+          <td>${row.ctime}</td>
+          <td>
+            <a href="javascript:void(0)" onclick="del(this)">删除</a>
+            <a href="javascript:void(0)" onclick="update(this)">更新</a>
+            </td>
+          </tr>`;
+      }
+      F.one("#tblbody").innerHTML=html;
+}
+//     // 生成页码
+function setPager(pn, tp){
+	// console.log("生成页码");
+	//生成页码
+	new vuePager("#pgbox",{
+		pn:pn,//页码,[必],int,默认：第1页
+		tp:tp,//总页数,[必],int,默认：共100页
+		offset:5,//显示页码个数,[选],int,默认5,注：此处最好是奇数
+		pinf:true,//是否显示分页信息,[选],bool,默认true显示
+		firstText:"首页",//首页显示文字,[选],string,默认：« ,注：假值为不显示，不设置则使用默认值
+		preText:"上页",//上页显示文字,[选],string,默认：› ,注：假值为不显示，不设置为则用默认值
+		posText:"下页",//下页显示文字,[选],string,默认：‹ ,注：假值为不显示，不设置为则用默认值
+		lastText:"末页",//尾页显示文字,[选],string,默认：« ,注：假值为不显示，不设置为则用默认值
+	}).build(function(_pn, _tp, _offset){
+			console.log(_pn, _tp, _offset);
+			setList(_pn);//根据当前页码生成页面
+	});
+}
+function update(me){
+  alert(me.parentNode.parentNode.dataset.nid);
+}
+
+// 删除一条
+function del(me){
+	// console.log(me.parentNode.parentNode);
+	let nid=me.parentNode.parentNode.dataset.nid;
+	// 删除前询问
+	if(confirm("您确定要删除id为的"+nid+"数据？")==false)return;
+
+	console.log(nid);
+	axios({
+		url:"/admin,News-delRow",
+    method:"get",
+		params:{op:"disable", nid, r:Math.random()}
+	}).then((r)=>{
+		if(r.data.stat==1)
+			me.parentNode.parentNode.parentNode.removeChild(me.parentNode.parentNode);
+		else{
+			alert('服务器错误，删除失败！');
+    }
+	}).catch((e)=>{
+		alert(e.response.data.msg);
+	})
+}
+</script>
+</html>

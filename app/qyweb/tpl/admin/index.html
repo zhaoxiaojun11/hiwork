@@ -1,0 +1,267 @@
+<?php
+use \proj\mdl\Qyweb as qy;
+?>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title><?=qy::APP_NAME_ZH;?> - 后台主页</title>
+<base href="/<?=APP_NAME;?>/admin/" target="_self">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet" />
+<style type="text/css">
+ul,li,dl,dd,img,p{
+	margin:0;
+	padding:0;
+}
+
+html,body{
+	height:100%;
+}
+
+body {
+	display: flex;
+	min-width:800px;
+}
+
+
+#left{
+	position:relative;
+	width:200px;
+	height:100%;
+	background-color:#42505d;
+}
+
+#left header{
+	text-align:center;
+	color:#FFF;
+}
+
+
+#logo{
+	display: block;
+	width:40%;
+	margin:2em auto 1em;
+}
+
+#left footer{
+	position: absolute;
+    bottom: .5rem;
+    font-size: .7em;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+}
+
+
+#nav{
+	position:relative;
+	margin-top:2em;
+	color:#dde0f7;
+	line-height:2;
+}
+
+#nav ul{
+	margin:1em 0;
+	font-size: 14px;
+	text-align: center;
+}
+
+
+#nav .tit{
+	font-weight: 600;
+	cursor:pointer;
+}
+
+#nav .tit:before{
+	content:">";
+	margin-left: -10px;
+}
+
+#nav .tit:hover{
+	text-decoration:underline;
+}
+
+#nav a{
+	color:#FFF;
+}
+
+
+
+#right{
+	display: flex;
+    flex: 1;
+	height:100%;
+	background-color: #f7f8fd;
+}
+
+#right article{
+	width:100%;
+
+}
+
+
+#right header{
+	height:20%;
+	background:url("img/bd.jpg") no-repeat left top;
+	background-size: 100% 100%;
+	display:flex;
+	align-items:center;
+	/*justify-content:center;*/
+}
+
+#innerWinBox{
+	height:80%;
+	/*background-color: #CCC;*/
+	/*margin:1.5em;*/
+}
+
+#userop{
+	width: 50%;
+    text-align: right;
+    padding-right: 1em;
+}
+
+#userop a{
+	color:#FFF;
+	text-decoration:underline;
+}
+
+#innerWin{
+	display:block;
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	border-width:0;
+	background-color: #FFF;
+}
+
+
+#headerBox{
+	width:50%;
+}
+
+#headerBox ul{
+	text-shadow: 0px 0px 2px #000;
+	line-height:30px;
+	list-style-type:none;
+	color:#FFF;
+	font-shadow:
+}
+
+#tx{
+	border-radius: 5px;
+	display:block;
+	float:left;
+	margin:0 1em;
+	width:60px;
+}
+
+.navhide{
+	height:28px;
+	overflow: hidden;
+}
+
+.slted{color:#F00;}
+
+</style>
+</head>
+<body>
+<div id="left">
+<article>
+	<header>
+		<a href="/admin,index" style="text-decoration: none; color: white">
+			<img id="logo" src="img/logo.png">
+			<div><?=qy::APP_NAME_ZH2;?>后台管理系统</div>
+		</a>
+	</header>
+	<section id="nav">
+		<ul class="navhide">
+			<li class="tit" onclick="F.chg(this)">用户管理</li>
+			<li><a href="/admin,Myinfo-info" target="innerwin">用户信息</a></li>
+			<li><a href="/admin,Myinfo-chgPwd" target="innerwin">修改密码</a></li>
+			<li><a href="/admin,Myinfo-txinfo" target="innerwin">修改头像</a></li>	
+		</ul>
+		<ul class="navhide">
+			<li class="tit" onclick="F.chg(this)">新闻管理</li>
+			<li><a href="/admin,News-all" target="innerwin">所有新闻</a></li>
+			<li><a href="/admin,News-add" target="innerwin">添加新闻</a></li>
+			<li><a href="/admin,News-recycle" target="innerwin">回收站</a></li>
+		</ul>
+		<ul class="navhide">
+			<li class="tit" onclick="F.chg(this)">产品管理</li>
+			<li><a href="/admin,Canpin-index" target="innerwin">添加产品</a></li>
+			<li><a href="/admin,Canpin-Canpinshow" target="innerwin">产品列表</a></li>
+
+		</ul>
+	</section>
+	<footer>
+	版权所有@ZxJ-2020
+	</footer>
+</article>
+</div>
+
+<div id="right">
+<article>
+	<header>
+		<div id="headerBox">
+			<img id="tx" src="tx/<?=$id;?>.jpeg">
+			<ul>
+				<li><?=$nick;?></li>
+				<li><?=$usr;?></li>
+			</ul>
+		</div>
+		<div id="userop">
+			<a href="/index">返回首页</a>
+			<a href="/user-logout">退出</a>
+		</div>
+	</header>
+
+	<section id="innerWinBox">
+		<iframe scrolling="auto" id="innerWin" name="innerwin" src="/admin,index-deft">
+		</iframe>
+	</section>	
+</article>
+</div>
+
+
+
+
+<script type="text/javascript" src=""></script>	
+<script type="text/javascript">
+F={
+	one:(slt)=>document.querySelector(slt),
+	all:(slt)=>document.querySelectorAll(slt),
+}
+
+
+
+//展开与关闭的实现
+F.chg=(li)=>{
+	let ul = li.parentNode;
+	console.log(li);
+	ul.className = ul.className=='navhide' ? '' : 'navhide';
+}
+
+
+F.bindLi=()=>{
+	let lis = F.all("#nav li");
+
+	let chgLi=(me)=>{
+		me.className.className="slted"; 				
+	}
+
+	
+	for(let li of lis){
+		li.className="";
+		li.onclick=function(){
+			chgLi(this);
+			
+		}	
+	}
+}
+
+</script>
+</body>
+</html>

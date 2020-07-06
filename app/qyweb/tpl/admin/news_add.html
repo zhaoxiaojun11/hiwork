@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>新闻</title>
+<link type="text/css" href="" rel="stylesheet" />
+<style type="text/css">
+*{margin:0; padding:0; }
+html{ background-color: #DDD; height:100%;}
+body{margin:20px auto; padding:20px; width:100%; height:100%; background-color: #FFF; box-sizing:border-box;}
+#upimg{min-width:100px; min-height:100px; height:250px;  background-color:#EEE;}
+input{border:1px solid #ccc;}
+#btn{padding:0 10px;}
+</style>
+<link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+	<form id="Form">
+		<div class="form-group col-md-4">
+		  <label for="formGroupExampleInput">资讯标题</label>
+		  <input type="text" id="biaoti" class="form-control" id="formGroupExampleInput" name="biaoti">
+		</div>
+		<div class="form-group col-md-4">
+		<label for="formGroupExampleInput">资讯类别</label>
+		<select name="leib" id="select" class="form-control">
+			<option value="企业动态">企业动态</option>
+			<option value="企业介绍">企业介绍</option>
+			<option value="明星新闻">明星新闻</option>
+		</select>
+		</div>
+	  
+		<button type="button" class="btn btn-primary" onclick="getCnt()">取得编辑器中的内容</button>
+		<textarea id="editor_id" name="content" style="width:700px;height:300px;">
+		&lt;strong&gt;&lt;/strong&gt;
+		</textarea>
+		<button type="button" class="btn btn-primary" id="btn">提交</button>
+	</form>
+	<div id="show"></div>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>
+<script charset="utf-8" src="/static/js/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/static/js/kindeditor/lang/zh-CN.js"></script>
+<script>
+	var F={
+	one:(slt)=>document.querySelector(slt),
+    all:(slt)=>document.querySelector(slt),
+}
+	//生成编辑器
+	KindEditor.ready(function(K) {
+			edt = K.create('#editor_id');
+	});
+	function getCnt(){
+		let r=edt.html();//取得编辑器的内容
+		console.log(r);
+		show.innerHTML=r;
+	}
+	F.one("#btn").onclick=function(){
+		// 去除并合成表单数据
+		var formData=new FormData(F.one("#Form"));
+		formData.append('content',edt.html());
+		axios({
+			url:"/admin,News-adding",
+			method:"post",
+			data: formData,
+		}).then(function(r){
+			this.disabled=true;
+			r=r.data;
+			if(r.stat==1){
+				alert("提交成功");
+				// location.reload();
+			}
+		}).catch(function(e){
+			alert(e.response.data.msg);
+			console.log(e.response.data);
+		});
+	}
+	
+</script>
+</body>
+</html>

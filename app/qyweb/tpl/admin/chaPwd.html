@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户信息修改</title>
+</head>
+<link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet" />
+<body>
+
+    <div class="form-group col-md-4">
+      <label for="exampleInputPassword1">当前密码</label>
+      <input type="password" class="form-control" id="dqpws">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="exampleInputPassword1">新密码</label>
+      <input type="password" class="form-control" id="newpws">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="exampleInputPassword1">确认密码</label>
+      <input type="password" class="form-control" id="pws">
+    </div>
+    <button type="button" class="btn btn-primary" id="btn">确定</button>
+          
+</body>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>	
+<script>
+var F={
+	one:(slt)=>document.querySelector(slt),
+    all:(slt)=>document.querySelector(slt),
+}
+F.one("#btn").onclick=()=>{
+    var dqpws=F.one("#dqpws").value;//当前密码
+    var newpws=F.one("#newpws").value;
+    var pws=F.one("#pws").value;//新密码
+    if(newpws!=pws){
+        alert('俩次密码输入不一致');
+        return;
+    }
+    axios({
+		url:"/admin,Myinfo-xgpwd",
+		method:"post",
+		data:{dqpws,pws},
+	}).then(function(r){
+        r=r.data;
+        alert('修改成功');
+	}).catch(function(e){
+		alert(e.response.data.msg);
+	});
+}
+
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新闻内页</title>
+  <base href="/<?=APP_NAME;?>/">
+
+  <meta name="keywords" content="油价上涨" />
+  <meta name="description" content="油价上涨激发勘探业石油钻探设备出" />
+  <meta name="applicable-device"content="pc,mobile">
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/bxslider.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bxslider.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <style>
+    .flash{display:none;}
+  </style>
+</head>
+
+<body>
+<?php include '_header.html';?>
+<div class="container banner">
+  <a href="javascript:;"><img src="images/banner2.jpg" alt="广告图1，产品或方案1" /></a>
+</div>
+<!-- main -->
+<div class="container">
+  <div class="row"><!-- right -->
+    <div class="col-xs-12 col-sm-8 col-md-9" style="float:right">
+      <div class="list_box">
+        <h2 class="left_h1">公司新闻</h2>
+        <div class="contents">
+          <h1 class="contents_title"><?=$tit;?></h1>
+          <h1 class="contents_title">创建时间:<?=$ctime;?></h1>
+          <span style="color:#505050;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;line-height:22px;">
+            <?=$cnt;?>
+          </span>
+        </div>
+      </div>
+
+    </div>
+    <!-- left -->
+    <div class="col-xs-12 col-sm-4 col-md-3">
+      <?php include '_left_guanyu.html';?>
+    </div>
+  </div>
+</div>
+<?php include '_footer.html';?>
+
+</body>
+</html>

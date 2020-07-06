@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新闻列表</title>
+<base href="/<?=APP_NAME;?>/">
+<meta name="keywords" content="新闻关键字优化" />
+<meta name="description" content="新闻描述优化" />
+<meta name="applicable-device"content="pc,mobile">
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bxslider.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<script src="js/jquery.min.js"></script>
+<script src="js/bxslider.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/bootstrap.js"></script>
+<style>
+.flash{display:none;}
+</style>
+</head>
+
+<body>
+<?php include '_header.html';?>
+<div class="container banner">
+	<a href="javascript:;"><img src="images/banner2.jpg" alt="广告图1，产品或方案1" /></a>
+</div>
+<!-- main -->
+<div class="container">
+  <div class="row"><!-- right -->
+    <div class="col-xs-12 col-sm-8 col-md-9" style="float:right">
+      <div class="list_box">
+        <h2 class="left_h1">新闻中心</h2>
+        <ul class="list_news" id="list_news">
+          <?php foreach ($rows as $row){ ;?>
+          <li>
+            <a href="/xinwen-one?id=<?=$row->id;?>" title="<?=$row->tit;?>" id="<?=$row->id;?>">
+              <!-- /xinwen_one.html -->
+              <?=$row->tit;?>
+            </a>
+              <span class="news_time"><?=$row->ctime;?></span></li>
+            <?php } ?>
+        </ul>
+        <div class="page">
+          <div class='current'><?=$pginfo;?></div>
+          <div><?=$pgtag;?></div>
+        </div>
+    </div>
+    <!-- left -->
+    <div class="col-xs-12 col-sm-4 col-md-3">
+      <?php include '_left_guanyu.html';?>
+    </div>
+  </div>
+</div>
+<?php include '_footer.html';?>
+<script src='/static/js/vue.min.js'></script>
+<script src='/static/js/vuePager-master/vuePager.min.js'></script>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>	
+<script>
+  function aclick(me){
+    console.log(me.id);
+    let id = me.id;
+    axios({
+      url:"/Xinwen-one",
+      method:"get",
+      params:{id}
+
+    }).then(function(r){
+		r=r.data;
+		// alert(r.msg);
+	}).catch(function(e){
+		// alert(e.response.data.msg);
+	})
+  }
+</script>
+</body>
+</html>

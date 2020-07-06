@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户信息修改</title>
+</head>
+<link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet" />
+<body>
+    <ul>
+        <div class="form-group col-md-4" >
+            <label for="">用户ID</label>
+            <input type="text" class="form-control" id="uid" value="<?=$id;?>" disabled>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">用户名</label>
+            <input type="text" class="form-control" id="" value="<?=$usr;?>" disabled>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">昵 称</label>
+            <input type="text" class="form-control" id="nick" value="<?=$nick;?>">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">上次登陆</label>
+            <input type="text" class="form-control" id="" value="<?=$last;?>" disabled>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">创建时间</label>
+            <input type="text" class="form-control" id="" value="<?=$ctime;?>" disabled>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="btn">保存</button>
+</body>
+<script type="text/javascript" src="/static/js/axios.min.js"></script>	
+<script>
+var F={
+	one:(slt)=>document.querySelector(slt),
+    all:(slt)=>document.querySelector(slt),
+}
+var nick0="<?=$nick;?>"
+F.one("#btn").onclick=()=>{
+    let nick=F.one("#nick").value;
+    let uid=F.one("#uid").value;
+    if(nick0==nick){
+        alert('没有数据被修改');
+        return;
+    }
+    axios({
+		url:"/admin,Myinfo-infoChg",
+		method:"post",
+		data:{nick,uid},
+	}).then(function(r){
+        r=r.data;
+        console.log(r);
+	}).catch(function(e){
+		alert(e.response.data.msg);
+		console.log(e.response.data);
+	});
+}
+
+</script>
+</html>

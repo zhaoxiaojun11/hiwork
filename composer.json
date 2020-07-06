@@ -1,0 +1,19 @@
+{
+	"autoload":
+	{
+
+	   "files": [
+	      "config/const.php",
+	      "vendor/haiwork/kernel/funs.php"
+	    ],	
+
+		"psr-4":
+		{
+			"kernel\\" : "vendor/haiwork/kernel/",
+			"ext\\" : "vendor/haiwork/ext/",
+			"lib\\" : "vendor/haiwork/lib/"
+		}
+	}
+
+
+}

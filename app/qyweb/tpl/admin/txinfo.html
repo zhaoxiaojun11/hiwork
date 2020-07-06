@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>New Document</title>
+<link type="text/css" href="" rel="stylesheet" />
+<style type="text/css">
+*{margin:0; padding:0; }
+html{ background-color: #DDD; height:100%;}
+body{margin:20px auto; padding:20px; width:960px; height:100%; background-color: #FFF; box-sizing:border-box;}
+#upimg{min-width:100px; min-height:100px; height:250px;  background-color:#EEE;}
+input{border:1px solid #ccc;}
+#btn{padding:0 10px;}
+</style>
+</head>
+<body>
+
+<h3>选择头像图片</h3>
+<input id="file" type="file" onchange="getImg64()" multiple="multiple" accept="image/jpeg"/>
+<button id="btn" type="button" onclick="up()">上传</button>
+<br/>
+<br/>
+<h3>图片预览</h3>
+<img id="upimg" alt="上传图片后可在此处预览"/>
+
+
+<br />
+<!-- <iframe src="/app/upload"></iframe> -->
+
+
+<script type="text/javascript" src="/static/js/axios.min.js"></script>	
+<script type="text/javascript">
+//定义全局变量 IMG:图片base64码； _img图片预览DOM； ipt上传域 
+var IMG,_img = document.getElementById("upimg"),ipt = document.getElementById("file");
+
+// 点击按钮后进行上传
+function up()
+{
+	if(confirm("你确定要上传文件？")==false) return;
+
+	if(!IMG){alert('没有选择图片');return;}
+
+
+	//传输的数据：图片数据 和 其它辅助数据
+	var pdata = {'img': IMG, 'some': Math.random()}
+
+	// ajax提交数据，并回调
+	axios({
+		url:"/admin,Myinfo-uploadtx",
+		method:"post",
+		data:pdata
+	}).then(function(r)
+	{//200时的回调 
+		r=r.data;
+		alert(r);
+		console.log(r);
+		//还原为空
+		_img.src="";
+		ipt.value="";
+	}).catch(function(e)
+	{//失败时的回调
+		alert(e);
+	});
+}
+
+// 取得选择文件的base64码，并进行预览
+function getImg64()
+{
+	var file=ipt.files[0];
+	console.log(file);
+
+	//创建FileReader对象
+	var imgReader = new FileReader();
+	//将图片读取为url数据
+    imgReader.readAsDataURL(file);
+	//侦听读取取完后回调
+	imgReader.onloadend = function(proge)
+	{  
+    	//proge.target.result为图片的base64码
+		console.log(proge.target.result);
+
+		//将base64码写入src
+		_img.src=proge.target.result;
+
+		// 将base64值存到IMG全局变中
+		IMG = proge.target.result;
+    };
+}
+
+
+</script>
+</body>
+</html>

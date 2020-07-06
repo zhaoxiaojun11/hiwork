@@ -1,0 +1,11 @@
+; vtp框架的系统配置
+
+[sys]
+;版本3.2 对配置使用ini格式进行分层
+version = 3.2
+author = chy
+
+
+
+
+
